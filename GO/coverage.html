@@ -1,0 +1,2048 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>datastructures: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">datastructures/BinaryTree.go (95.9%)</option>
+				
+				<option value="file1">datastructures/DoublyLinkedList.go (100.0%)</option>
+				
+				<option value="file2">datastructures/HashTable.go (93.9%)</option>
+				
+				<option value="file3">datastructures/Serialization.go (80.9%)</option>
+				
+				<option value="file4">datastructures/SinglyLinkedList.go (98.5%)</option>
+				
+				<option value="file5">datastructures/array.go (90.3%)</option>
+				
+				<option value="file6">datastructures/main.go (0.0%)</option>
+				
+				<option value="file7">datastructures/stack.go (98.1%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package main
+
+import (
+        "fmt"
+        "strings"
+)
+
+type TreeNode struct {
+        data  int
+        left  *TreeNode
+        right *TreeNode
+}
+
+type FullBinaryTree struct {
+        root *TreeNode
+}
+
+func NewFullBinaryTree() *FullBinaryTree <span class="cov8" title="1">{
+        return &amp;FullBinaryTree{}
+}</span>
+
+func (b *FullBinaryTree) Insert(value int) <span class="cov8" title="1">{
+        b.root = b.insert(b.root, value)
+}</span>
+
+func (b *FullBinaryTree) insert(node *TreeNode, value int) *TreeNode <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return &amp;TreeNode{data: value}
+        }</span>
+        <span class="cov8" title="1">if value &lt; node.data </span><span class="cov8" title="1">{
+                node.left = b.insert(node.left, value)
+        }</span> else<span class="cov8" title="1"> {
+                node.right = b.insert(node.right, value)
+        }</span>
+        <span class="cov8" title="1">return node</span>
+}
+
+func (b *FullBinaryTree) Print() <span class="cov8" title="1">{
+        b.printTree(b.root, 0)
+}</span>
+
+func (b *FullBinaryTree) printTree(node *TreeNode, depth int) <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">b.printTree(node.right, depth+1)
+        fmt.Printf("%s%d\n", strings.Repeat("    ", depth), node.data)
+        b.printTree(node.left, depth+1)</span>
+}
+
+func (b *FullBinaryTree) PrintZigZag() <span class="cov8" title="1">{
+        if b.root == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">currentLevel := []*TreeNode{b.root}
+        nextLevel := []*TreeNode{}
+        leftToRight := true
+
+        for len(currentLevel) &gt; 0 </span><span class="cov8" title="1">{
+                node := currentLevel[len(currentLevel)-1]
+                currentLevel = currentLevel[:len(currentLevel)-1]
+
+                if node != nil </span><span class="cov8" title="1">{
+                        fmt.Printf("%d ", node.data)
+                        if leftToRight </span><span class="cov8" title="1">{
+                                if node.left != nil </span><span class="cov8" title="1">{
+                                        nextLevel = append(nextLevel, node.left)
+                                }</span>
+                                <span class="cov8" title="1">if node.right != nil </span><span class="cov8" title="1">{
+                                        nextLevel = append(nextLevel, node.right)
+                                }</span>
+                        } else<span class="cov8" title="1"> {
+                                if node.right != nil </span><span class="cov0" title="0">{
+                                        nextLevel = append(nextLevel, node.right)
+                                }</span>
+                                <span class="cov8" title="1">if node.left != nil </span><span class="cov0" title="0">{
+                                        nextLevel = append(nextLevel, node.left)
+                                }</span>
+                        }
+                }
+
+                <span class="cov8" title="1">if len(currentLevel) == 0 </span><span class="cov8" title="1">{
+                        fmt.Println()
+                        currentLevel, nextLevel = nextLevel, currentLevel
+                        leftToRight = !leftToRight
+                }</span>
+        }
+}
+
+func (b *FullBinaryTree) IsEmpty() bool <span class="cov8" title="1">{
+        return b.root == nil
+}</span>
+
+func (b *FullBinaryTree) ToVector() []int <span class="cov8" title="1">{
+        result := []int{}
+        b.inOrderToVector(b.root, &amp;result)
+        return result
+}</span>
+
+func (b *FullBinaryTree) inOrderToVector(node *TreeNode, result *[]int) <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">b.inOrderToVector(node.left, result)
+        *result = append(*result, node.data)
+        b.inOrderToVector(node.right, result)</span>
+}
+
+func (b *FullBinaryTree) FromVector(elements []int) <span class="cov8" title="1">{
+        b.root = nil
+        for _, value := range elements </span><span class="cov8" title="1">{
+                b.Insert(value)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package main
+
+import "fmt"
+
+type DLLNode struct {
+        data string
+        prev *DLLNode
+        next *DLLNode
+}
+
+type DoublyLinkedList struct {
+        head *DLLNode
+        tail *DLLNode
+        size int
+}
+
+func NewDoublyLinkedList() *DoublyLinkedList <span class="cov8" title="1">{
+        return &amp;DoublyLinkedList{}
+}</span>
+
+func (d *DoublyLinkedList) PushBack(value string) <span class="cov8" title="1">{
+        newNode := &amp;DLLNode{data: value}
+        if d.head == nil </span><span class="cov8" title="1">{
+                d.head = newNode
+                d.tail = newNode
+        }</span> else<span class="cov8" title="1"> {
+                d.tail.next = newNode
+                newNode.prev = d.tail
+                d.tail = newNode
+        }</span>
+        <span class="cov8" title="1">d.size++</span>
+}
+
+func (d *DoublyLinkedList) PushFront(value string) <span class="cov8" title="1">{
+        newNode := &amp;DLLNode{data: value}
+        if d.head == nil </span><span class="cov8" title="1">{
+                d.head = newNode
+                d.tail = newNode
+        }</span> else<span class="cov8" title="1"> {
+                newNode.next = d.head
+                d.head.prev = newNode
+                d.head = newNode
+        }</span>
+        <span class="cov8" title="1">d.size++</span>
+}
+
+func (d *DoublyLinkedList) PopFront() <span class="cov8" title="1">{
+        if d.head == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">d.head = d.head.next
+        if d.head != nil </span><span class="cov8" title="1">{
+                d.head.prev = nil
+        }</span> else<span class="cov8" title="1"> {
+                d.tail = nil
+        }</span>
+        <span class="cov8" title="1">d.size--</span>
+}
+
+func (d *DoublyLinkedList) PopBack() <span class="cov8" title="1">{
+        if d.tail == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">d.tail = d.tail.prev
+        if d.tail != nil </span><span class="cov8" title="1">{
+                d.tail.next = nil
+        }</span> else<span class="cov8" title="1"> {
+                d.head = nil
+        }</span>
+        <span class="cov8" title="1">d.size--</span>
+}
+
+func (d *DoublyLinkedList) Insert(index int, value string) <span class="cov8" title="1">{
+        if index &gt; d.size </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">if index == 0 </span><span class="cov8" title="1">{
+                d.PushFront(value)
+                return
+        }</span>
+        <span class="cov8" title="1">if index == d.size </span><span class="cov8" title="1">{
+                d.PushBack(value)
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := d.head
+        for i := 0; i &lt; index; i++ </span><span class="cov8" title="1">{
+                current = current.next
+        }</span>
+        
+        <span class="cov8" title="1">newNode := &amp;DLLNode{data: value}
+        newNode.prev = current.prev
+        newNode.next = current
+        current.prev.next = newNode
+        current.prev = newNode
+        d.size++</span>
+}
+
+func (d *DoublyLinkedList) Remove(index int) <span class="cov8" title="1">{
+        if index &gt;= d.size </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">if index == 0 </span><span class="cov8" title="1">{
+                d.PopFront()
+                return
+        }</span>
+        <span class="cov8" title="1">if index == d.size-1 </span><span class="cov8" title="1">{
+                d.PopBack()
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := d.head
+        for i := 0; i &lt; index; i++ </span><span class="cov8" title="1">{
+                current = current.next
+        }</span>
+        
+        <span class="cov8" title="1">current.prev.next = current.next
+        current.next.prev = current.prev
+        d.size--</span>
+}
+
+func (d *DoublyLinkedList) Get(index int) (string, error) <span class="cov8" title="1">{
+        if index &gt;= d.size </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("index out of range")
+        }</span>
+        
+        <span class="cov8" title="1">current := d.head
+        for i := 0; i &lt; index; i++ </span><span class="cov8" title="1">{
+                current = current.next
+        }</span>
+        <span class="cov8" title="1">return current.data, nil</span>
+}
+
+func (d *DoublyLinkedList) GetFront() (string, error) <span class="cov8" title="1">{
+        if d.head == nil </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("list is empty")
+        }</span>
+        <span class="cov8" title="1">return d.head.data, nil</span>
+}
+
+func (d *DoublyLinkedList) GetBack() (string, error) <span class="cov8" title="1">{
+        if d.tail == nil </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("list is empty")
+        }</span>
+        <span class="cov8" title="1">return d.tail.data, nil</span>
+}
+
+func (d *DoublyLinkedList) IsEmpty() bool <span class="cov8" title="1">{
+        return d.size == 0
+}</span>
+
+func (d *DoublyLinkedList) Size() int <span class="cov8" title="1">{
+        return d.size
+}</span>
+
+func (d *DoublyLinkedList) Clear() <span class="cov8" title="1">{
+        for !d.IsEmpty() </span><span class="cov8" title="1">{
+                d.PopFront()
+        }</span>
+}
+
+func (d *DoublyLinkedList) ToVector() []string <span class="cov8" title="1">{
+        result := make([]string, 0, d.size)
+        current := d.head
+        for current != nil </span><span class="cov8" title="1">{
+                result = append(result, current.data)
+                current = current.next
+        }</span>
+        <span class="cov8" title="1">return result</span>
+}
+
+func (d *DoublyLinkedList) FromVector(elements []string) <span class="cov8" title="1">{
+        d.Clear()
+        for _, element := range elements </span><span class="cov8" title="1">{
+                d.PushBack(element)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package main
+
+type Pair struct {
+        key   rune
+        value int
+}
+
+type OpenAddressingHashTable struct {
+        table    []Pair
+        occupied []bool
+        capacity int
+        size     int
+}
+
+func NewOpenAddressingHashTable(capacity int) *OpenAddressingHashTable <span class="cov8" title="1">{
+        if capacity == 0 </span><span class="cov8" title="1">{
+                capacity = 256
+        }</span>
+        <span class="cov8" title="1">return &amp;OpenAddressingHashTable{
+                table:    make([]Pair, capacity),
+                occupied: make([]bool, capacity),
+                capacity: capacity,
+                size:     0,
+        }</span>
+}
+
+func (h *OpenAddressingHashTable) hash(key rune, attempt int) int <span class="cov8" title="1">{
+        return (int(key) + attempt) % h.capacity
+}</span>
+
+func (h *OpenAddressingHashTable) Insert(key rune, value int) <span class="cov8" title="1">{
+        // Проверка на переполнение
+        if h.size &gt;= h.capacity </span><span class="cov8" title="1">{
+                return
+        }</span>
+        
+        // Линейное пробирование
+        <span class="cov8" title="1">index := int(key) % h.capacity
+        startIndex := index
+        
+        for </span><span class="cov8" title="1">{
+                if !h.occupied[index] </span><span class="cov8" title="1">{
+                        h.table[index] = Pair{key, value}
+                        h.occupied[index] = true
+                        h.size++
+                        return
+                }</span>
+                
+                <span class="cov8" title="1">if h.occupied[index] &amp;&amp; h.table[index].key == key </span><span class="cov8" title="1">{
+                        h.table[index].value = value
+                        return
+                }</span>
+                
+                // Следующий индекс
+                <span class="cov0" title="0">index = (index + 1) % h.capacity
+                
+                // Если обошли всю таблицу и вернулись к началу
+                if index == startIndex </span><span class="cov0" title="0">{
+                        break</span>
+                }
+        }
+}
+
+func (h *OpenAddressingHashTable) Search(key rune) (int, bool) <span class="cov8" title="1">{
+        for attempt := 0; attempt &lt; h.capacity; attempt++ </span><span class="cov8" title="1">{
+                index := h.hash(key, attempt)
+                
+                if h.occupied[index] &amp;&amp; h.table[index].key == key </span><span class="cov8" title="1">{
+                        return h.table[index].value, true
+                }</span>
+                
+                <span class="cov8" title="1">if !h.occupied[index] </span><span class="cov8" title="1">{
+                        break</span>
+                }
+        }
+        <span class="cov8" title="1">return 0, false</span>
+}
+
+func (h *OpenAddressingHashTable) Remove(key rune) bool <span class="cov8" title="1">{
+        for attempt := 0; attempt &lt; h.capacity; attempt++ </span><span class="cov8" title="1">{
+                index := h.hash(key, attempt)
+                
+                if h.occupied[index] &amp;&amp; h.table[index].key == key </span><span class="cov8" title="1">{
+                        h.occupied[index] = false
+                        h.size--
+                        return true
+                }</span>
+                
+                <span class="cov8" title="1">if !h.occupied[index] </span><span class="cov8" title="1">{
+                        break</span>
+                }
+        }
+        <span class="cov8" title="1">return false</span>
+}
+
+func (h *OpenAddressingHashTable) Clear() <span class="cov8" title="1">{
+        for i := 0; i &lt; h.capacity; i++ </span><span class="cov8" title="1">{
+                h.occupied[i] = false
+        }</span>
+        <span class="cov8" title="1">h.size = 0</span>
+}
+
+func (h *OpenAddressingHashTable) IsEmpty() bool <span class="cov8" title="1">{
+        return h.size == 0
+}</span>
+
+func (h *OpenAddressingHashTable) GetSize() int <span class="cov8" title="1">{
+        return h.size
+}</span>
+
+func (h *OpenAddressingHashTable) ToVector() []Pair <span class="cov8" title="1">{
+        result := []Pair{}
+        for i := 0; i &lt; h.capacity; i++ </span><span class="cov8" title="1">{
+                if h.occupied[i] </span><span class="cov8" title="1">{
+                        result = append(result, h.table[i])
+                }</span>
+        }
+        <span class="cov8" title="1">return result</span>
+}
+
+func (h *OpenAddressingHashTable) FromVector(elements []Pair) <span class="cov8" title="1">{
+        h.Clear()
+        for _, element := range elements </span><span class="cov8" title="1">{
+                h.Insert(element.key, element.value)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package main
+
+import (
+        "encoding/binary"
+        "fmt"
+        "io"
+        "os"
+)
+
+// Serializer - универсальный сериализатор для всех структур
+type Serializer struct{}
+
+func NewSerializer() *Serializer <span class="cov8" title="1">{
+        return &amp;Serializer{}
+}</span>
+
+// ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
+
+func (s *Serializer) writeString(file *os.File, str string) error <span class="cov8" title="1">{
+        strBytes := []byte(str)
+        strLen := uint32(len(strBytes))
+        
+        if err := binary.Write(file, binary.LittleEndian, strLen); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        
+        <span class="cov8" title="1">_, err := file.Write(strBytes)
+        return err</span>
+}
+
+func (s *Serializer) readString(file *os.File) (string, error) <span class="cov8" title="1">{
+        var strLen uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;strLen); err != nil </span><span class="cov8" title="1">{
+                return "", err
+        }</span>
+        
+        <span class="cov8" title="1">if strLen &gt; 1000000 </span><span class="cov0" title="0">{
+                return "", fmt.Errorf("string too long: %d", strLen)
+        }</span>
+        
+        <span class="cov8" title="1">strBytes := make([]byte, strLen)
+        if _, err := io.ReadFull(file, strBytes); err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        
+        <span class="cov8" title="1">return string(strBytes), nil</span>
+}
+
+func (s *Serializer) writeInt(file *os.File, val int) error <span class="cov8" title="1">{
+        return binary.Write(file, binary.LittleEndian, uint64(val))
+}</span>
+
+func (s *Serializer) readInt(file *os.File) (int, error) <span class="cov8" title="1">{
+        var val uint64
+        if err := binary.Read(file, binary.LittleEndian, &amp;val); err != nil </span><span class="cov0" title="0">{
+                return 0, err
+        }</span>
+        <span class="cov8" title="1">return int(val), nil</span>
+}
+
+// ==================== ARRAY ====================
+
+func (s *Serializer) BinarySerializeArray(arr *Array, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия (опционально)
+        if err := binary.Write(file, binary.LittleEndian, uint32(1)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Имя массива
+        <span class="cov8" title="1">if err := s.writeString(file, arr.name); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Емкость и размер
+        <span class="cov8" title="1">if err := s.writeInt(file, arr.capacity); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if err := s.writeInt(file, arr.size); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Элементы
+        <span class="cov8" title="1">data := arr.toSlice()
+        if err := s.writeInt(file, len(data)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">for _, str := range data </span><span class="cov8" title="1">{
+                if err := s.writeString(file, str); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) BinaryDeserializeArray(arr *Array, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        var version uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;version); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if version != 1 </span><span class="cov8" title="1">{
+                return fmt.Errorf("unsupported version: %d", version)
+        }</span>
+
+        // Имя
+        <span class="cov8" title="1">name, err := s.readString(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Емкость и размер (пропускаем)
+        <span class="cov8" title="1">if _, err := s.readInt(file); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if _, err := s.readInt(file); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Количество элементов
+        <span class="cov8" title="1">elemCount, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Чтение элементов
+        <span class="cov8" title="1">data := make([]string, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                str, err := s.readString(file)
+                if err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">data = append(data, str)</span>
+        }
+
+        <span class="cov8" title="1">arr.Free()
+        arr.name = name
+        return arr.fromSlice(data)</span>
+}
+
+func (s *Serializer) TextSerializeArray(arr *Array, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        fmt.Fprintf(file, "NAME:%s\n", arr.name)
+        fmt.Fprintf(file, "CAPACITY:%d\n", arr.capacity)
+        fmt.Fprintf(file, "SIZE:%d\n", arr.size)
+
+        data := arr.toSlice()
+        fmt.Fprintf(file, "ELEMENTS:%d\n", len(data))
+        
+        for _, str := range data </span><span class="cov8" title="1">{
+                fmt.Fprintf(file, "%s\n", str)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) TextDeserializeArray(arr *Array, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var name string
+        fmt.Fscanf(file, "NAME:%s\n", &amp;name)
+
+        var capacity, size int
+        fmt.Fscanf(file, "CAPACITY:%d\n", &amp;capacity)
+        fmt.Fscanf(file, "SIZE:%d\n", &amp;size)
+
+        var elemCount int
+        fmt.Fscanf(file, "ELEMENTS:%d\n", &amp;elemCount)
+
+        data := make([]string, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                var str string
+                fmt.Fscanf(file, "%s\n", &amp;str)
+                data = append(data, str)
+        }</span>
+
+        <span class="cov8" title="1">arr.Free()
+        arr.name = name
+        return arr.fromSlice(data)</span>
+}
+
+// ==================== SINGLY LINKED LIST ====================
+
+func (s *Serializer) BinarySerializeSinglyLinkedList(list *SinglyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        if err := binary.Write(file, binary.LittleEndian, uint32(1)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Размер
+        <span class="cov8" title="1">if err := s.writeInt(file, list.size); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Элементы
+        <span class="cov8" title="1">data := list.ToVector()
+        for _, str := range data </span><span class="cov8" title="1">{
+                if err := s.writeString(file, str); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) BinaryDeserializeSinglyLinkedList(list *SinglyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        var version uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;version); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if version != 1 </span><span class="cov0" title="0">{
+                return fmt.Errorf("unsupported version: %d", version)
+        }</span>
+
+        // Размер
+        <span class="cov8" title="1">size, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Чтение элементов
+        <span class="cov8" title="1">data := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                str, err := s.readString(file)
+                if err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">data = append(data, str)</span>
+        }
+
+        <span class="cov8" title="1">list.FromVector(data)
+        return nil</span>
+}
+
+func (s *Serializer) TextSerializeSinglyLinkedList(list *SinglyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        fmt.Fprintf(file, "SIZE:%d\n", list.size)
+
+        data := list.ToVector()
+        for _, str := range data </span><span class="cov8" title="1">{
+                fmt.Fprintf(file, "%s\n", str)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) TextDeserializeSinglyLinkedList(list *SinglyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var size int
+        fmt.Fscanf(file, "SIZE:%d\n", &amp;size)
+
+        data := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                var str string
+                fmt.Fscanf(file, "%s\n", &amp;str)
+                data = append(data, str)
+        }</span>
+
+        <span class="cov8" title="1">list.FromVector(data)
+        return nil</span>
+}
+
+// ==================== DOUBLY LINKED LIST ====================
+
+func (s *Serializer) BinarySerializeDoublyLinkedList(list *DoublyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        if err := binary.Write(file, binary.LittleEndian, uint32(1)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Размер
+        <span class="cov8" title="1">if err := s.writeInt(file, list.size); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Элементы
+        <span class="cov8" title="1">data := list.ToVector()
+        for _, str := range data </span><span class="cov8" title="1">{
+                if err := s.writeString(file, str); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) BinaryDeserializeDoublyLinkedList(list *DoublyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        var version uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;version); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if version != 1 </span><span class="cov0" title="0">{
+                return fmt.Errorf("unsupported version: %d", version)
+        }</span>
+
+        // Размер
+        <span class="cov8" title="1">size, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Чтение элементов
+        <span class="cov8" title="1">data := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                str, err := s.readString(file)
+                if err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">data = append(data, str)</span>
+        }
+
+        <span class="cov8" title="1">list.FromVector(data)
+        return nil</span>
+}
+
+func (s *Serializer) TextSerializeDoublyLinkedList(list *DoublyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        fmt.Fprintf(file, "SIZE:%d\n", list.size)
+
+        data := list.ToVector()
+        for _, str := range data </span><span class="cov8" title="1">{
+                fmt.Fprintf(file, "%s\n", str)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) TextDeserializeDoublyLinkedList(list *DoublyLinkedList, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var size int
+        fmt.Fscanf(file, "SIZE:%d\n", &amp;size)
+
+        data := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                var str string
+                fmt.Fscanf(file, "%s\n", &amp;str)
+                data = append(data, str)
+        }</span>
+
+        <span class="cov8" title="1">list.FromVector(data)
+        return nil</span>
+}
+
+// ==================== HASH TABLE ====================
+
+func (s *Serializer) BinarySerializeHashTable(ht *OpenAddressingHashTable, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        if err := binary.Write(file, binary.LittleEndian, uint32(1)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Емкость и размер
+        <span class="cov8" title="1">if err := s.writeInt(file, ht.capacity); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if err := s.writeInt(file, ht.size); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Элементы
+        <span class="cov8" title="1">data := ht.ToVector()
+        if err := s.writeInt(file, len(data)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">for _, pair := range data </span><span class="cov8" title="1">{
+                // Запись ключа (rune) как int32
+                if err := binary.Write(file, binary.LittleEndian, int32(pair.key)); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                // Запись значения
+                <span class="cov8" title="1">if err := binary.Write(file, binary.LittleEndian, int64(pair.value)); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) BinaryDeserializeHashTable(ht *OpenAddressingHashTable, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        var version uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;version); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if version != 1 </span><span class="cov0" title="0">{
+                return fmt.Errorf("unsupported version: %d", version)
+        }</span>
+
+        // Емкость и размер
+        <span class="cov8" title="1">capacity, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">_, err = s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Количество элементов
+        <span class="cov8" title="1">elemCount, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Чтение элементов
+        <span class="cov8" title="1">data := make([]Pair, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                var key int32
+                if err := binary.Read(file, binary.LittleEndian, &amp;key); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov8" title="1">var value int64
+                if err := binary.Read(file, binary.LittleEndian, &amp;value); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov8" title="1">data = append(data, Pair{key: rune(key), value: int(value)})</span>
+        }
+
+        <span class="cov8" title="1">ht.Clear()
+        *ht = *NewOpenAddressingHashTable(capacity)
+        for _, pair := range data </span><span class="cov8" title="1">{
+                ht.Insert(pair.key, pair.value)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) TextSerializeHashTable(ht *OpenAddressingHashTable, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        fmt.Fprintf(file, "CAPACITY:%d\n", ht.capacity)
+        fmt.Fprintf(file, "SIZE:%d\n", ht.size)
+
+        data := ht.ToVector()
+        fmt.Fprintf(file, "ELEMENTS:%d\n", len(data))
+        
+        for _, pair := range data </span><span class="cov8" title="1">{
+                fmt.Fprintf(file, "%c:%d\n", pair.key, pair.value)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) TextDeserializeHashTable(ht *OpenAddressingHashTable, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var capacity, size int
+        fmt.Fscanf(file, "CAPACITY:%d\n", &amp;capacity)
+        fmt.Fscanf(file, "SIZE:%d\n", &amp;size)
+
+        var elemCount int
+        fmt.Fscanf(file, "ELEMENTS:%d\n", &amp;elemCount)
+
+        data := make([]Pair, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                var keyChar byte
+                var value int
+                fmt.Fscanf(file, "%c:%d\n", &amp;keyChar, &amp;value)
+                data = append(data, Pair{key: rune(keyChar), value: value})
+        }</span>
+
+        <span class="cov8" title="1">ht.Clear()
+        *ht = *NewOpenAddressingHashTable(capacity)
+        for _, pair := range data </span><span class="cov8" title="1">{
+                ht.Insert(pair.key, pair.value)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+// ==================== BINARY TREE ====================
+
+func (s *Serializer) BinarySerializeTree(tree *FullBinaryTree, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        if err := binary.Write(file, binary.LittleEndian, uint32(1)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Элементы
+        <span class="cov8" title="1">data := tree.ToVector()
+        if err := s.writeInt(file, len(data)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">for _, val := range data </span><span class="cov8" title="1">{
+                if err := binary.Write(file, binary.LittleEndian, int64(val)); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) BinaryDeserializeTree(tree *FullBinaryTree, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        var version uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;version); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if version != 1 </span><span class="cov0" title="0">{
+                return fmt.Errorf("unsupported version: %d", version)
+        }</span>
+
+        // Количество элементов
+        <span class="cov8" title="1">elemCount, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Чтение элементов
+        <span class="cov8" title="1">data := make([]int, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                var val int64
+                if err := binary.Read(file, binary.LittleEndian, &amp;val); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">data = append(data, int(val))</span>
+        }
+
+        <span class="cov8" title="1">tree.FromVector(data)
+        return nil</span>
+}
+
+func (s *Serializer) TextSerializeTree(tree *FullBinaryTree, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        data := tree.ToVector()
+        fmt.Fprintf(file, "ELEMENTS:%d\n", len(data))
+        
+        for i, val := range data </span><span class="cov8" title="1">{
+                if i &gt; 0 </span><span class="cov8" title="1">{
+                        fmt.Fprintf(file, " ")
+                }</span>
+                <span class="cov8" title="1">fmt.Fprintf(file, "%d", val)</span>
+        }
+        <span class="cov8" title="1">fmt.Fprintf(file, "\n")
+
+        return nil</span>
+}
+
+func (s *Serializer) TextDeserializeTree(tree *FullBinaryTree, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var elemCount int
+        fmt.Fscanf(file, "ELEMENTS:%d\n", &amp;elemCount)
+
+        data := make([]int, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                var val int
+                fmt.Fscanf(file, "%d", &amp;val)
+                data = append(data, val)
+        }</span>
+
+        <span class="cov8" title="1">tree.FromVector(data)
+        return nil</span>
+}
+
+// ==================== СТЕК СЕРИАЛИЗАЦИЯ ====================
+
+// BinarySerializeStack сохраняет Stack в бинарный файл
+func (s *Serializer) BinarySerializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        if err := binary.Write(file, binary.LittleEndian, uint32(1)); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Размер
+        <span class="cov8" title="1">if err := s.writeInt(file, stack.Size()); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Элементы от вершины к основанию
+        <span class="cov8" title="1">elements := stack.ToVector() // уже от вершины
+        for i := 0; i &lt; len(elements); i++ </span><span class="cov8" title="1">{
+                if err := s.writeString(file, elements[i]); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+// BinaryDeserializeStack загружает Stack из бинарного файла
+func (s *Serializer) BinaryDeserializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        // Версия
+        var version uint32
+        if err := binary.Read(file, binary.LittleEndian, &amp;version); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">if version != 1 </span><span class="cov0" title="0">{
+                return fmt.Errorf("unsupported version: %d", version)
+        }</span>
+
+        // Размер
+        <span class="cov8" title="1">size, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        // Чтение элементов
+        <span class="cov8" title="1">elements := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                str, err := s.readString(file)
+                if err != nil </span><span class="cov8" title="1">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">elements = append(elements, str)</span>
+        }
+
+        // Загружаем
+        <span class="cov8" title="1">stack.FromVector(elements)
+        return nil</span>
+}
+
+// TextSerializeStack сохраняет Stack в текстовый файл
+func (s *Serializer) TextSerializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        fmt.Fprintf(file, "STACK\n")
+        fmt.Fprintf(file, "SIZE:%d\n", stack.Size())
+
+        elements := stack.ToVector() // от вершины к основанию
+        fmt.Fprintf(file, "ELEMENTS:%d\n", len(elements))
+        
+        for i := 0; i &lt; len(elements); i++ </span><span class="cov8" title="1">{
+                fmt.Fprintf(file, "%s\n", elements[i])
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+// TextDeserializeStack загружает Stack из текстового файла
+func (s *Serializer) TextDeserializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var typeStr string
+        fmt.Fscanf(file, "%s\n", &amp;typeStr)
+        if typeStr != "STACK" </span><span class="cov0" title="0">{
+                return fmt.Errorf("invalid file type: %s", typeStr)
+        }</span>
+
+        <span class="cov8" title="1">var size int
+        fmt.Fscanf(file, "SIZE:%d\n", &amp;size)
+
+        var elemCount int
+        fmt.Fscanf(file, "ELEMENTS:%d\n", &amp;elemCount)
+
+        elements := make([]string, 0, elemCount)
+        for i := 0; i &lt; elemCount; i++ </span><span class="cov8" title="1">{
+                var str string
+                fmt.Fscanf(file, "%s\n", &amp;str)
+                elements = append(elements, str)
+        }</span>
+
+        <span class="cov8" title="1">stack.FromVector(elements)
+        return nil</span>
+}
+
+// SimplifiedTextSerializeStack - упрощенная версия
+func (s *Serializer) SimplifiedTextSerializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        elements := stack.ToVector()
+        fmt.Fprintf(file, "%d\n", len(elements))
+        
+        for i := 0; i &lt; len(elements); i++ </span><span class="cov8" title="1">{
+                fmt.Fprintf(file, "%s\n", elements[i])
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+// SimplifiedTextDeserializeStack - упрощенная версия загрузки
+func (s *Serializer) SimplifiedTextDeserializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        var size int
+        fmt.Fscanf(file, "%d\n", &amp;size)
+
+        elements := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                var str string
+                fmt.Fscanf(file, "%s\n", &amp;str)
+                elements = append(elements, str)
+        }</span>
+
+        <span class="cov8" title="1">stack.FromVector(elements)
+        return nil</span>
+}
+
+// CompactBinarySerializeStack - компактная бинарная сериализация
+func (s *Serializer) CompactBinarySerializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to create file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        if err := s.writeInt(file, stack.Size()); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">elements := stack.ToVector()
+        for i := 0; i &lt; len(elements); i++ </span><span class="cov8" title="1">{
+                if err := s.writeString(file, elements[i]); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+// CompactBinaryDeserializeStack - компактная бинарная загрузка
+func (s *Serializer) CompactBinaryDeserializeStack(stack *Stack, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to open file: %v", err)
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        size, err := s.readInt(file)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">elements := make([]string, 0, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                str, err := s.readString(file)
+                if err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">elements = append(elements, str)</span>
+        }
+
+        <span class="cov8" title="1">stack.FromVector(elements)
+        return nil</span>
+}</pre>
+		
+		<pre class="file" id="file4" style="display: none">package main
+
+import "fmt"
+
+type SLLNode struct {
+        data string
+        next *SLLNode
+}
+
+type SinglyLinkedList struct {
+        head *SLLNode
+        tail *SLLNode
+        size int
+}
+
+func NewSinglyLinkedList() *SinglyLinkedList <span class="cov8" title="1">{
+        return &amp;SinglyLinkedList{}
+}</span>
+
+func (s *SinglyLinkedList) PushBack(value string) <span class="cov8" title="1">{
+        newNode := &amp;SLLNode{data: value}
+        if s.head == nil </span><span class="cov8" title="1">{
+                s.head = newNode
+                s.tail = newNode
+        }</span> else<span class="cov8" title="1"> {
+                s.tail.next = newNode
+                s.tail = newNode
+        }</span>
+        <span class="cov8" title="1">s.size++</span>
+}
+
+func (s *SinglyLinkedList) PushFront(value string) <span class="cov8" title="1">{
+        newNode := &amp;SLLNode{data: value}
+        if s.head == nil </span><span class="cov8" title="1">{
+                s.head = newNode
+                s.tail = newNode
+        }</span> else<span class="cov8" title="1"> {
+                newNode.next = s.head
+                s.head = newNode
+        }</span>
+        <span class="cov8" title="1">s.size++</span>
+}
+
+func (s *SinglyLinkedList) PopFront() <span class="cov8" title="1">{
+        if s.head == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">s.head = s.head.next
+        s.size--
+        if s.head == nil </span><span class="cov8" title="1">{
+                s.tail = nil
+        }</span>
+}
+
+func (s *SinglyLinkedList) Insert(index int, value string) <span class="cov8" title="1">{
+        if index &gt; s.size </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">if index == 0 </span><span class="cov8" title="1">{
+                s.PushFront(value)
+                return
+        }</span>
+        <span class="cov8" title="1">if index == s.size </span><span class="cov8" title="1">{
+                s.PushBack(value)
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := s.head
+        for i := 0; i &lt; index-1; i++ </span><span class="cov0" title="0">{
+                current = current.next
+        }</span>
+        
+        <span class="cov8" title="1">newNode := &amp;SLLNode{data: value}
+        newNode.next = current.next
+        current.next = newNode
+        s.size++</span>
+}
+
+func (s *SinglyLinkedList) Remove(index int) <span class="cov8" title="1">{
+        if index &gt;= s.size </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">if index == 0 </span><span class="cov8" title="1">{
+                s.PopFront()
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := s.head
+        for i := 0; i &lt; index-1; i++ </span><span class="cov8" title="1">{
+                current = current.next
+        }</span>
+        
+        <span class="cov8" title="1">current.next = current.next.next
+        if current.next == nil </span><span class="cov8" title="1">{
+                s.tail = current
+        }</span>
+        <span class="cov8" title="1">s.size--</span>
+}
+
+func (s *SinglyLinkedList) Get(index int) (string, error) <span class="cov8" title="1">{
+        if index &gt;= s.size </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("index out of range")
+        }</span>
+        
+        <span class="cov8" title="1">current := s.head
+        for i := 0; i &lt; index; i++ </span><span class="cov8" title="1">{
+                current = current.next
+        }</span>
+        <span class="cov8" title="1">return current.data, nil</span>
+}
+
+func (s *SinglyLinkedList) IsEmpty() bool <span class="cov8" title="1">{
+        return s.size == 0
+}</span>
+
+func (s *SinglyLinkedList) Size() int <span class="cov8" title="1">{
+        return s.size
+}</span>
+
+func (s *SinglyLinkedList) Clear() <span class="cov8" title="1">{
+        for !s.IsEmpty() </span><span class="cov8" title="1">{
+                s.PopFront()
+        }</span>
+}
+
+func (s *SinglyLinkedList) ToVector() []string <span class="cov8" title="1">{
+        result := make([]string, 0, s.size)
+        current := s.head
+        for current != nil </span><span class="cov8" title="1">{
+                result = append(result, current.data)
+                current = current.next
+        }</span>
+        <span class="cov8" title="1">return result</span>
+}
+
+func (s *SinglyLinkedList) FromVector(elements []string) <span class="cov8" title="1">{
+        s.Clear()
+        for _, element := range elements </span><span class="cov8" title="1">{
+                s.PushBack(element)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package main
+
+/*
+#include &lt;stdlib.h&gt;
+*/
+import "C"
+import (
+        "fmt"
+        "unsafe"
+)
+
+type Array struct {
+        name     string
+        capacity int
+        size     int
+        data     uintptr
+}
+
+func malloc(size int) uintptr <span class="cov8" title="1">{
+        ptr := C.malloc(C.size_t(size))
+        if ptr == nil </span><span class="cov0" title="0">{
+                panic("malloc failed")</span>
+        }
+        <span class="cov8" title="1">return uintptr(ptr)</span>
+}
+
+func free(ptr uintptr) <span class="cov8" title="1">{
+        if ptr != 0 </span><span class="cov8" title="1">{
+                C.free(unsafe.Pointer(ptr))
+        }</span>
+}
+
+func NewArray(name string, capacity int) *Array <span class="cov8" title="1">{
+        sizeOfString := unsafe.Sizeof("")
+        data := malloc(int(sizeOfString) * capacity)
+
+        return &amp;Array{
+                name:     name,
+                capacity: capacity,
+                size:     0,
+                data:     data,
+        }
+}</span>
+
+func (a *Array) Free() <span class="cov8" title="1">{
+        if a.data != 0 </span><span class="cov8" title="1">{
+                free(a.data)
+                a.data = 0
+                a.size = 0
+                a.capacity = 0
+        }</span>
+}
+
+func (a *Array) getElementPtr(index int) unsafe.Pointer <span class="cov8" title="1">{
+        sizeOfString := unsafe.Sizeof("")
+        return unsafe.Pointer(a.data + uintptr(index)*sizeOfString)
+}</span>
+
+func (a *Array) getString(index int) string <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= a.size </span><span class="cov0" title="0">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">ptr := a.getElementPtr(index)
+        // Безопасное приведение через промежуточный указатель
+        return *(*string)(ptr)</span>
+}
+
+func (a *Array) setString(index int, value string) <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= a.capacity </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">ptr := a.getElementPtr(index)
+        // Безопасное приведение через промежуточный указатель
+        *(*string)(ptr) = value</span>
+}
+
+func (a *Array) resize() <span class="cov8" title="1">{
+        newCapacity := a.capacity * 2
+        sizeOfString := unsafe.Sizeof("")
+
+        newData := malloc(int(sizeOfString) * newCapacity)
+
+        // Копируем существующие элементы
+        for i := 0; i &lt; a.size; i++ </span><span class="cov8" title="1">{
+                oldPtr := a.getElementPtr(i)
+                newPtr := unsafe.Pointer(newData + uintptr(i)*sizeOfString)
+                // Копируем через присваивание
+                *(*string)(newPtr) = *(*string)(oldPtr)
+        }</span>
+
+        <span class="cov8" title="1">free(a.data)
+        a.data = newData
+        a.capacity = newCapacity</span>
+}
+
+func (a *Array) PushBack(value string) <span class="cov8" title="1">{
+        if a.size &gt;= a.capacity </span><span class="cov8" title="1">{
+                a.resize()
+        }</span>
+        <span class="cov8" title="1">a.setString(a.size, value)
+        a.size++</span>
+}
+
+func (a *Array) Insert(index int, value string) bool <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt; a.size </span><span class="cov8" title="1">{
+                fmt.Println("incorrect")
+                return false
+        }</span>
+
+        <span class="cov8" title="1">if a.size &gt;= a.capacity </span><span class="cov8" title="1">{
+                a.resize()
+        }</span>
+
+        // Сдвигаем элементы вправо
+        <span class="cov8" title="1">for i := a.size; i &gt; index; i-- </span><span class="cov8" title="1">{
+                prev := a.getString(i - 1)
+                a.setString(i, prev)
+        }</span>
+
+        <span class="cov8" title="1">a.setString(index, value)
+        a.size++
+        return true</span>
+}
+
+func (a *Array) Get(index int) string <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= a.size </span><span class="cov8" title="1">{
+                fmt.Println("incorrect")
+                return ""
+        }</span>
+        <span class="cov8" title="1">return a.getString(index)</span>
+}
+
+func (a *Array) Remove(index int) bool <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= a.size </span><span class="cov8" title="1">{
+                fmt.Println("incorrect")
+                return false
+        }</span>
+
+        // Сдвигаем элементы влево
+        <span class="cov8" title="1">for i := index; i &lt; a.size-1; i++ </span><span class="cov8" title="1">{
+                next := a.getString(i + 1)
+                a.setString(i, next)
+        }</span>
+
+        // Очищаем последний элемент
+        <span class="cov8" title="1">a.setString(a.size-1, "")
+        a.size--
+        return true</span>
+}
+
+func (a *Array) Replace(index int, value string) bool <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= a.size </span><span class="cov8" title="1">{
+                fmt.Println("incorrect")
+                return false
+        }</span>
+        <span class="cov8" title="1">a.setString(index, value)
+        return true</span>
+}
+
+func (a *Array) Length() int <span class="cov0" title="0">{
+        return a.size
+}</span>
+
+func (a *Array) Size() int <span class="cov8" title="1">{
+        return a.size
+}</span>
+
+func (a *Array) Print() <span class="cov0" title="0">{
+        fmt.Printf("%s = [ ", a.name)
+        for i := 0; i &lt; a.size; i++ </span><span class="cov0" title="0">{
+                fmt.Printf("\"%s\"", a.getString(i))
+                if i &lt; a.size-1 </span><span class="cov0" title="0">{
+                        fmt.Print(", ")
+                }</span>
+        }
+        <span class="cov0" title="0">fmt.Println(" ]")</span>
+}
+
+// Методы для тестирования
+func (a *Array) Equals(other *Array) bool <span class="cov8" title="1">{
+        if a.name != other.name || a.size != other.size </span><span class="cov8" title="1">{
+                return false
+        }</span>
+
+        <span class="cov8" title="1">for i := 0; i &lt; a.size; i++ </span><span class="cov8" title="1">{
+                if a.getString(i) != other.getString(i) </span><span class="cov0" title="0">{
+                        return false
+                }</span>
+        }
+
+        <span class="cov8" title="1">return true</span>
+}
+
+func (a *Array) Copy() *Array <span class="cov8" title="1">{
+        newArr := NewArray(a.name, a.capacity)
+        for i := 0; i &lt; a.size; i++ </span><span class="cov8" title="1">{
+                newArr.PushBack(a.getString(i))
+        }</span>
+        <span class="cov8" title="1">return newArr</span>
+}
+
+func (a *Array) toSlice() []string <span class="cov8" title="1">{
+        result := make([]string, a.size)
+        for i := 0; i &lt; a.size; i++ </span><span class="cov8" title="1">{
+                result[i] = a.getString(i)
+        }</span>
+        <span class="cov8" title="1">return result</span>
+}
+
+func (a *Array) fromSlice(data []string) error <span class="cov8" title="1">{
+        a.Free()
+        
+        a.name = "" // или сохранить старое имя?
+        
+        capacity := len(data)
+        if capacity == 0 </span><span class="cov8" title="1">{
+                capacity = 1
+        }</span>
+
+        <span class="cov8" title="1">sizeOfString := unsafe.Sizeof("")
+        a.data = malloc(int(sizeOfString) * capacity)
+        a.capacity = capacity
+        a.size = 0
+
+        for i := 0; i &lt; len(data); i++ </span><span class="cov8" title="1">{
+                ptr := a.getElementPtr(i)
+                *(*string)(ptr) = data[i]
+                a.size++
+        }</span>
+        
+        // Если нужно сохранить имя:
+        // a.name = oldName
+        
+        <span class="cov8" title="1">return nil</span>
+}</pre>
+		
+		<pre class="file" id="file6" style="display: none">package main
+
+import (
+        "fmt"
+)
+
+func main() <span class="cov0" title="0">{
+        fmt.Println("=== Демонстрация работы структур данных и сериализации ===")
+
+        // Создаем сериализатор
+        serializer := NewSerializer()
+
+        // ===== ДЕМОНСТРАЦИЯ ARRAY =====
+        fmt.Println("--- Array ---")
+        arr := NewArray("myArray", 2)
+        defer arr.Free()
+        
+        arr.PushBack("hello")
+        arr.PushBack("world")
+        arr.PushBack("go")
+        arr.Insert(1, "beautiful")
+        
+        fmt.Println("Исходный массив:")
+        arr.Print()
+        
+        // Сохраняем
+        serializer.BinarySerializeArray(arr, "array.bin")
+        serializer.TextSerializeArray(arr, "array.txt")
+        fmt.Println("Массив сохранен в array.bin и array.txt")
+        
+        // Загружаем
+        loadedArr := NewArray("loaded", 1)
+        defer loadedArr.Free()
+        serializer.BinaryDeserializeArray(loadedArr, "array.bin")
+        fmt.Println("Загруженный массив:")
+        loadedArr.Print()
+        fmt.Println()
+
+        // ===== ДЕМОНСТРАЦИЯ STACK =====
+        fmt.Println("--- Stack ---")
+        stack := NewStack()
+        stack.Push("третий")
+        stack.Push("второй")
+        stack.Push("первый")
+        
+        fmt.Println("Исходный стек:")
+        stack.Print()
+        
+        serializer.BinarySerializeStack(stack, "stack.bin")
+        fmt.Println("Стек сохранен в stack.bin")
+        
+        loadedStack := NewStack()
+        serializer.BinaryDeserializeStack(loadedStack, "stack.bin")
+        fmt.Println("Загруженный стек:")
+        loadedStack.Print()
+        fmt.Println()
+
+        // ===== ДЕМОНСТРАЦИЯ СПИСКОВ =====
+        fmt.Println("--- Связные списки ---")
+        
+        // Односвязный список
+        sll := NewSinglyLinkedList()
+        sll.PushBack("A")
+        sll.PushBack("B")
+        sll.PushBack("C")
+        
+        fmt.Println("Односвязный список:", sll.ToVector())
+        serializer.BinarySerializeSinglyLinkedList(sll, "sll.bin")
+        
+        // Двусвязный список
+        dll := NewDoublyLinkedList()
+        dll.PushBack("X")
+        dll.PushBack("Y")
+        dll.PushBack("Z")
+        
+        fmt.Println("Двусвязный список:", dll.ToVector())
+        serializer.BinarySerializeDoublyLinkedList(dll, "dll.bin")
+        fmt.Println()
+
+        // ===== ДЕМОНСТРАЦИЯ ХЕШ-ТАБЛИЦЫ =====
+        fmt.Println("--- Хеш-таблица ---")
+        ht := NewOpenAddressingHashTable(10)
+        ht.Insert('a', 100)
+        ht.Insert('b', 200)
+        ht.Insert('c', 300)
+        
+        fmt.Printf("Хеш-таблица: размер=%d\n", ht.GetSize())
+        val, _ := ht.Search('b')
+        fmt.Printf("Поиск 'b': %d\n", val)
+        
+        serializer.BinarySerializeHashTable(ht, "ht.bin")
+        fmt.Println("Хеш-таблица сохранена в ht.bin")
+        fmt.Println()
+
+        // ===== ДЕМОНСТРАЦИЯ ДЕРЕВА =====
+        fmt.Println("--- Бинарное дерево ---")
+        tree := NewFullBinaryTree()
+        values := []int{5, 3, 7, 2, 4, 6, 8}
+        for _, v := range values </span><span class="cov0" title="0">{
+                tree.Insert(v)
+        }</span>
+        
+        <span class="cov0" title="0">fmt.Println("Дерево (in-order):", tree.ToVector())
+        fmt.Println("Zig-zag обход:")
+        tree.PrintZigZag()
+        
+        serializer.BinarySerializeTree(tree, "tree.bin")
+        fmt.Println("Дерево сохранено в tree.bin")
+
+        fmt.Println("\n=== Все данные успешно сохранены ===")</span>
+}</pre>
+		
+		<pre class="file" id="file7" style="display: none">package main
+
+import (
+        "fmt"
+)
+
+type StackNode struct {
+        data string
+        next *StackNode
+}
+
+type Stack struct {
+        top  *StackNode
+        size int
+}
+
+func NewStack() *Stack <span class="cov8" title="1">{
+        return &amp;Stack{
+                top:  nil,
+                size: 0,
+        }
+}</span>
+
+func (s *Stack) Push(value string) <span class="cov8" title="1">{
+        newNode := &amp;StackNode{
+                data: value,
+                next: s.top,
+        }
+        s.top = newNode
+        s.size++
+}</span>
+
+func (s *Stack) Pop() <span class="cov8" title="1">{
+        if s.top == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">s.top = s.top.next
+        s.size--</span>
+}
+
+func (s *Stack) Top() (string, error) <span class="cov8" title="1">{
+        if s.top == nil </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("stack is empty")
+        }</span>
+        <span class="cov8" title="1">return s.top.data, nil</span>
+}
+
+func (s *Stack) IsEmpty() bool <span class="cov8" title="1">{
+        return s.size == 0
+}</span>
+
+func (s *Stack) Size() int <span class="cov8" title="1">{
+        return s.size
+}</span>
+
+func (s *Stack) Clear() <span class="cov8" title="1">{
+        for !s.IsEmpty() </span><span class="cov8" title="1">{
+                s.Pop()
+        }</span>
+}
+
+func (s *Stack) Print() <span class="cov8" title="1">{
+        fmt.Print("Stack [ ")
+        s.printRecursive(s.top)
+        fmt.Println("]")
+}</span>
+
+func (s *Stack) printRecursive(node *StackNode) <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">s.printRecursive(node.next)
+        fmt.Printf("\"%s\" ", node.data)</span>
+}
+
+// ToVector - возвращает элементы ОТ ВЕРШИНЫ К ОСНОВАНИЮ
+func (s *Stack) ToVector() []string <span class="cov8" title="1">{
+        result := make([]string, 0, s.size)
+        current := s.top
+        for current != nil </span><span class="cov8" title="1">{
+                result = append(result, current.data)
+                current = current.next
+        }</span>
+        <span class="cov8" title="1">return result</span>
+}
+
+// FromVector - загружает элементы В ОБРАТНОМ ПОРЯДКЕ
+// Чтобы восстановить стек, нужно добавлять элементы с конца
+func (s *Stack) FromVector(elements []string) <span class="cov8" title="1">{
+        s.Clear()
+        // Добавляем элементы с конца, чтобы первый элемент стал вершиной
+        for i := len(elements) - 1; i &gt;= 0; i-- </span><span class="cov8" title="1">{
+                s.Push(elements[i])
+        }</span>
+}
+
+// ToVectorReverse - возвращает элементы ОТ ОСНОВАНИЯ К ВЕРШИНЕ
+func (s *Stack) ToVectorReverse() []string <span class="cov8" title="1">{
+        result := make([]string, 0, s.size)
+        s.collectReverse(s.top, &amp;result)
+        return result
+}</span>
+
+func (s *Stack) collectReverse(node *StackNode, result *[]string) <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        <span class="cov8" title="1">s.collectReverse(node.next, result)
+        *result = append(*result, node.data)</span>
+}
+
+// Equals сравнивает два стека
+func (s *Stack) Equals(other *Stack) bool <span class="cov8" title="1">{
+        if s.size != other.size </span><span class="cov0" title="0">{
+                return false
+        }</span>
+
+        // Сравниваем элементы, двигаясь от вершины
+        <span class="cov8" title="1">current1 := s.top
+        current2 := other.top
+
+        for current1 != nil &amp;&amp; current2 != nil </span><span class="cov8" title="1">{
+                if current1.data != current2.data </span><span class="cov8" title="1">{
+                        return false
+                }</span>
+                <span class="cov8" title="1">current1 = current1.next
+                current2 = current2.next</span>
+        }
+
+        <span class="cov8" title="1">return true</span>
+}
+
+// Copy создает копию стека
+func (s *Stack) Copy() *Stack <span class="cov8" title="1">{
+        newStack := NewStack()
+        elements := s.ToVectorReverse() // берем от основания к вершине
+        for i := 0; i &lt; len(elements); i++ </span><span class="cov8" title="1">{
+                newStack.Push(elements[i])
+        }</span>
+        <span class="cov8" title="1">return newStack</span>
+}</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
